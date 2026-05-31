@@ -1,5 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { OrdersService, Order } from './orders.service';
+import {
+  GarmentStatusSummary,
+  Order,
+  OrdersService,
+} from './orders.service';
 
 @Controller('orders')
 export class OrdersController {
@@ -8,6 +12,11 @@ export class OrdersController {
   @Get()
   getOrders(): Order[] {
     return this.ordersService.findAll();
+  }
+
+  @Get('summary')
+  getGarmentStatusSummary(): GarmentStatusSummary {
+    return this.ordersService.getGarmentStatusSummary();
   }
 
   @Get(':id')

@@ -15,6 +15,8 @@ export interface Order {
   garments: Garment[];
 }
 
+export type GarmentStatusSummary = Partial<Record<GarmentStatus, number>>;
+
 // In-memory mock data to simulate a POS-like workflow
 const ORDERS: Order[] = [
   {
@@ -46,5 +48,13 @@ export class OrdersService {
     return ORDERS.find((o) => o.id === id);
   }
 
-  // NOTE: You will add more methods here in the implementation tasks.
+  getGarmentStatusSummary(): GarmentStatusSummary {
+    return ORDERS.reduce<GarmentStatusSummary>((summary, order) => {
+      order.garments.forEach((garment) => {
+        summary[garment.status] = (summary[garment.status] ?? 0) + 1;
+      });
+
+      return summary;
+    }, {});
+  }
 }
